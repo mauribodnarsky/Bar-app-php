@@ -1,0 +1,169 @@
+ <div class="row mb-2" *ngIf="this.identificado==true"  > 
+    <div class="col-8 bg-white" *ngIf="this.estadocaja!='false'">
+      <button class="btn btn-success" *ngIf="this.estadocaja=='abierta' && this.identificado==true" (click)="cerrarcaja()">CERRAR CAJA</button>
+      <button class="btn btn-success" *ngIf="this.estadocaja=='cerrada' && this.identificado==true" (click)="abrircaja()">ABRIR CAJA</button>
+
+    </div>
+  </div>
+
+<div class="row" >
+  <div class="col-4">
+    <div class="row" *ngIf="(this.mesamodelo.estado==0) && (this.identificado==true)">
+      <div class="col-10">
+        <form #FormBuscarProducto="ngForm" class="row"  (ngSubmit)="agregarproducto(FormBuscarProducto)" >
+          
+          <div class="col-12">
+            <div class="row"> 
+              <div class="col-11 offset-1">
+          <input type="text"  placeholder="Buscar producto" id="buscador"  [(ngModel)]="busqueda.busqueda"  name="busqueda" class="form-control my-2 ml-1" (keyup)="buscarproducto(busqueda.busqueda)">
+          </div>
+          </div>  
+          <div class="row mb-1" *ngIf="((busqueda.busqueda.length==4) && (busqueda.busqueda!=null) )"> 
+          <div class="col-4 offset-1"  >  
+
+          <h6 class="col-form-label">Cantidad</h6>
+          </div>
+          <div class="col-7">
+            <input type="number" class=" form-control"  [(ngModel)]="busqueda.cantidad" name="cantidad" required>
+          </div>
+          </div>
+          <div class="row mb-2" *ngIf="(busqueda.cantidad>0)" >
+<div class="col-10 offset-2">  
+
+            <input type="submit"  class="btn btn-success px-2 py-3 mx-1 mt-2" style="float:right;"  value="AGREGAR">
+            </div>
+            </div>
+            </div>
+      </form>
+      </div>
+    </div>
+    <div class="row" *ngIf="(this.mesamodelo.estado==0)">
+      <div class="col-11-offset-1 table-responsive  table-wrapper-scroll-y my-custom-scrollbar h-25">
+          <table class="table table-striped table-dark w-100 ml-sm-4 table-hover" style="text-align: left;">
+            <thead class="thead-light"> 
+              <tr  >
+                <th class="py-3" style="text-align: center;">CODIGO</th>
+                <th class="py-3" style="text-align: left;">NOMBRE</th>
+                <th class="py-3" style="text-align: left;">PRECIO</th>
+                </tr>
+            </thead><tbody>
+              <tr *ngFor="let producto of productos_busqueda" (click)="seleccionarcodigo(producto.codigo)">
+                <td style="text-align: center;" >{{producto.codigo}}</td>
+                <td style="text-align: left;">{{producto.nombre}}</td>
+                <td style="text-align: left;">{{producto.precio}}</td>
+              </tr>
+              </tbody>
+              </table>
+      </div>  
+      
+
+    </div>
+    </div>
+  <div class="bg-white col-6 offset-1">
+    <div class="row" *ngIf="(this.mesaseleccionada!='') && (this.identificado==true)">
+      <div class="col-8">
+        <p class="h5">MESA: {{this.mesaseleccionada}}</p>
+        
+      <form #FormCerrarMesa="ngForm" class="d-flex align-items-center float-right" *ngIf="this.mesamodelo.estado==0" (ngSubmit)="cerrarmesa(FormCerrarMesa)" >
+        
+        <input [(ngModel)]="mesamodelo.numero_mesa"  #numeromesa="ngModel"  type="hidden" name="numeromesa" value="{{this.mesaseleccionada}}">
+        <label for="posnet" class="label-form-control ">POSNET </label>
+        <input type="checkbox" class="font-weight-bold" [(ngModel)]="mesamodelo.posnet"  #posnet="ngModel" name="posnet" value="POSNET">
+          <input type="submit" class="btn-success mt-2 my-2 mx-1 py-2 px-1 float-right" style="border-radius:0.3em;text-decoration: none;" value="CERRAR MESA">
+        </form>
+       <form #FormAbrirMesa="ngForm" class="d-flex align-items-center float-right" *ngIf="this.mesamodelo.estado==1" class="mt-2 w-100 d-inline-block" (ngSubmit)="abrirmesa(FormAbrirMesa)">
+         <input [(ngModel)]="mesamodelo.numero_mesa" type="hidden" name="mesa" value="{{this.mesaseleccionada}}"> 
+         <select [(ngModel)]="mesamodelo.mozo" class="form-control w-75 mt-2 d-inline-block" name="mozo" >
+        <option *ngFor="let mozo of mozos" value="{{mozo.id}}">{{mozo.nombre}}</option>
+        
+        </select> <input class="btn-success mt-2  my-2 mx-1 py-2 px-1" style="border-radius:0.3em;text-decoration: none;" type="submit" value="ABRIR MESA">
+      </form>
+
+      </div>
+      </div>
+      <div class="row"  *ngIf="this.mesas!='false'" style="border-radius: 7px !important;border: 6px solid darkgoldenrod;">
+        <div class="col-1" style="background-color:#f7f7f7;color:darkgoldenrod;" *ngFor="let mesa of mesas">
+    
+          <a class="btn-light p-sm-2 p-1 d-inline-block border-dark border-1 mt-2 mx-1 "  *ngIf="mesa.estado==0" (click)="seleccionarmesa(mesa)" style="margin-right:1px;text-decoration: none; background-color: #27b940;color: white;border-radius: 100%;font-weight: bold;" >
+          {{mesa.numero_mesa}}
+          </a> 
+            
+          
+          <a class="btn-light p-sm-2 p-1 d-inline-block border-dark border-1 mt-2 mx-1 "   *ngIf="mesa.estado==1" (click)="seleccionarmesa(mesa)" style="margin-right:1px;text-decoration: none;background-color: #191818;margin-left:1px;color: white; border-radius: 100%;font-weight: bold;" >{{mesa.numero_mesa}}</a>
+       
+        
+    
+        
+        </div>  
+        </div>
+        <div class="row mt-2" *ngIf="this.factura!=false ">
+          <div class="col-10 offset-1">
+           <table class="table table-dark">
+             <thead class="bg-dark text-white">
+               <tr>
+                 <td>PRODUCTO</td>
+                 <td>CANTIDAD</td>
+                 <td>PRECIO</td>
+               </tr>
+             </thead>
+             <tbody>
+               <tr *ngFor="let producto_vendido of factura" >
+                 <td>{{producto_vendido.producto}}</td>
+                 <td>{{producto_vendido.cantidad}}</td>
+                 <td>{{producto_vendido.precio}}</td>
+                 
+               </tr>
+             </tbody>
+           </table>
+          </div>
+        </div>
+    </div>
+ 
+  </div> 
+  <!-- Button to Open the Modal -->
+<button type="button" id="verfacturabtn" class="btn btn-primary d-none" data-toggle="modal" data-target="#myModal">
+  Open modal
+</button>
+<script type="text/javascript">
+  document.getElementById("verfacturabtn").click();
+
+</script>
+<!-- The Modal -->
+<div class="modal" id="myModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">TICKET</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+<table class="table table-light">
+<thead>
+
+  <th class="text-center text-dark">PRODUCTO</th>
+  <th class="text-center text-dark">CANTIDAD</th>
+  <th class="text-center text-dark">PRECIO</th>
+</thead>
+<tbody>
+  <tr *ngFor="let prod of this.factura">
+    <td class="text-center text-dark">{{prod.producto}}</td>
+    <td class="text-center text-dark">{{prod.cantidad}}</td>
+    <td class="text-center text-dark">{{prod.precio}}</td>
+
+  </tr>
+</tbody>
+</table>  
+    </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+      </div>
+
+    </div>
+  </div>
+</div>

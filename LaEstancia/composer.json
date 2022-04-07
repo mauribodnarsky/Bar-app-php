@@ -1,0 +1,7 @@
+{
+    "require": {
+        "spipu/html2pdf": "^5.2",
+        "mike42/escpos-php": "^3.0"
+    }
+  
+}

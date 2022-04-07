@@ -1,0 +1,94 @@
+  <div class="row bg-dark" *ngIf="this.identificado==false" >
+          <div class="col-12">
+        <div class="row">
+          <div class="col-3 col-sm-4 "></div>
+          <div class="col-6 col-sm-4 ">
+            <img class="d-flex justify-content-center"  src="../../../assets/img/logonuevo.png" style="width: 100%;">
+          </div>
+                <div class="col-3 col-sm-4"></div>
+    
+        </div>
+       <div class="row">
+          <div class="col-3 col-sm-4 "></div>
+          <div class="col-6 col-sm-4 ">
+     <form #FormLogin="ngForm" (ngSubmit)="login(FormLogin)" class="p-3" >
+          <div class="row pb-3">
+            <div class="col-4">
+              <label class="d-inline-block text-white mr-3 mt-1 float-right" for="nombre">USUARIO</label>
+            </div>
+            <div class="col-8">
+              <input class="d-inline-block p-1 pr-1 border-secondary" autocomplete="off" type="text" [(ngModel)]="usuario.usuario"  name="usuario"/>
+            </div>
+          </div>
+          <div class="row">
+           <div class="col-4">
+             <label class="text-white d-inline-block float-right mt-1" for="password">PASSWORD</label>
+           </div>
+           <div class="col-8">
+            <input class="d-inline-block p-1  border-secondary" type="password" [(ngModel)]="usuario.password" name="password"/>
+    
+          </div>
+        </div>
+        <div class="row">
+         <div class="col-12  mt-3 d-flex justify-content-center align-content-center">
+           <input class="btn-secondary border-secondary p-2 mt-3" type="submit" value="INGRESAR"/>
+         </div>
+    
+       </div>
+     </form>      </div>
+                <div class="col-3 col-sm-4"></div>
+    
+        </div>
+      </div>
+        </div>
+
+        <div class="row bg-dark" *ngIf="this.identificado!=false" >
+          <div class="col-2 bg-white" >
+        <h1 class="h6 font-italic font-weight-bold">HOLA {{ this.identificado.nombre }}</h1>
+        
+          </div>
+
+          <!--MENU-->
+          <div class="col-10" *ngIf="this.identificado.rol=='admin'"> 
+            <nav class="navbar navbar-expand-xl navbar-light text-dark"  >
+
+               <div class="collapse navbar-collapse rounded-sm" style="background-color:#f9f9f9;" id="navbarNav"  											>
+                <ul class="navbar-nav row w-100 m-1" >
+              <div class="col-12" style="background-color:#f6f6f6;border:1px solid #f6f6f6 ">
+                <div class="row">
+                  <li class="nav-item col-12 col-md-2 text-center  " >
+                    <a class="nav-link"   [routerLink]="['/comandas']" >
+                      COMANDAS
+                    </a>
+                  </li>
+                  <li class="nav-item col-12 col-md-2 text-center  ">
+                    <a class="nav-link"   [routerLink]="['/administracion']" >
+                      ADMINISTRACION
+                    </a>
+                  </li>
+              
+                  <li class="nav-item col-12 col-md-2 text-center  ">
+                    <a  class="nav-link"  [routerLink]="['/cajas']" >
+                      CAJAS
+                    </a>
+                  </li>
+                      <li class="nav-item col-12 col-md-2 text-center  ">
+                    <a class="nav-link"   [routerLink]="['/estadisticas']" >
+                      ESTADISTICAS
+                    </a>
+                  </li>
+                  <li class="nav-item col-12 col-md-2 text-center " >
+                    <a  class="nav-link"  (click)="cerrarsesion()" >
+                      CERRAR SESION
+                    </a>
+                  </li>
+                  
+              </div></div>
+              
+                  
+                  </ul>
+                </div>
+              
+              </nav>
+          </div>
+        </div>
